@@ -1,9 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="d-flex justify-content-end">
+<a href="{{ route('posts.create') }}"class="btn btn-success mb1 my-2">Add</a></div>
 <div class="card card-default">
     <div class="card-header"><h1><b>Posts</b></h1></div>
         <div class="card body">
+                        
            @if($posts->count() > 0)
 
            <table class="table">
@@ -25,9 +28,20 @@
                         
 
 
-                        @if(!$post->trashed())
+                        @if($post->trashed())
+                       
+                        
                         <td>
-                        <a href="" class="btn btn-success" >Edit</a>
+                        <form action="{{route('restore-posts',$post->id)}}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <button type="submit" class="btn btn-info btn-sm">Restore</button>
+                        </form>
+                        </td>
+                        
+                        @else
+                        <td>
+                        <a href="{{route('posts.edit',$post->id)}}" class="btn btn-info btn-sm" >Edit</a>
                         </td>
                         @endif
                         
@@ -35,7 +49,7 @@
                         <form action="{{route('posts.destroy',$post->id)}}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger" >
+                             <button type="submit" class="btn btn-danger btn-sm" ></i>
                             {{$post->trashed() ? 'Delete' :'Trash'}}
                             </button>
                         </form>
@@ -62,11 +76,11 @@
 
 
 
-<div class="d-flex justify-content-end">
-<a href="{{ route('posts.create') }}"class="btn btn-primary mb1 my-2">button</a></div>
  
 
 
 @endsection
+
+
 
 
