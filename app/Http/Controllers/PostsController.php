@@ -152,5 +152,7 @@ class PostsController extends Controller
         $post->restore();
         session()->flash('success', 'Post restored successfully.');
         return redirect()->back();
+        //ok bro
+
     }
 }
