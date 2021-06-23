@@ -2,18 +2,18 @@
 
 @section('content')
 <div class="d-flex justify-content-end">
-<a href="{{ route('posts.create') }}"class="btn btn-success mb1 my-2">Add</a></div>
+<a href="{{ route('posts.create') }}"class="btn btn-success mb1 my-2">Add Post</a></div>
 <div class="card card-default">
     <div class="card-header"><h1><b>Posts</b></h1></div>
         <div class="card body">
-                        
+
            @if($posts->count() > 0)
 
            <table class="table">
                <thead>
-                   <th>Image</th>
-                   <th>Title</th>
-                   <th></th>
+                   <th><b>Image</b></th>
+                   <th><b>Title</b></th>
+                   <th><b>Category</b></th>
                    <th></th>
                </thead>
                <tbody>
@@ -22,29 +22,33 @@
                         <td>
                         <img src="{{($post->image)}}" width="120px" height="120px" alt="">
                         </td>
+
                         <td>
                             {{$post->title}}
                         </td>
-                        
-
-
-                        @if($post->trashed())
-                       
-                        
                         <td>
+                            <a href="{{route('categories.edit',$post->category->id)}}">{{$post->category->name }}</a>
+                        </td>
+
+
+
+                        <td>
+                        @if($post->trashed())
+
+
                         <form action="{{route('restore-posts',$post->id)}}" method="POST">
                         @csrf
                         @method('PUT')
                         <button type="submit" class="btn btn-info btn-sm">Restore</button>
                         </form>
                         </td>
-                        
+
                         @else
                         <td>
                         <a href="{{route('posts.edit',$post->id)}}" class="btn btn-info btn-sm" >Edit</a>
                         </td>
                         @endif
-                        
+
                         <td>
                         <form action="{{route('posts.destroy',$post->id)}}" method="POST">
                             @csrf
@@ -55,8 +59,8 @@
                         </form>
                         </td>
                     </tr>
-                    
-                    
+
+
                  @endforeach
                </tbody>
            </table>
@@ -65,18 +69,18 @@
            <H3 class="text-center"><b>No Post yet.</b></H3>
 
            @endif
-        </div>          
- 
-        
-        
-        
+        </div>
+
+
+
+
     </div>
-  
 
 
 
 
- 
+
+
 
 
 @endsection

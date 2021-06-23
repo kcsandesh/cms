@@ -9,7 +9,7 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-   
+
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -83,12 +83,26 @@
         </div>
 
         @endif
+        @if(session()->has('error'))
+        <div class="alert alert-danger">
+        {{session()->get('error')}}
+        </div>
+
+        @endif
         <div class="row">
           <div class="col-md-4">
          <ul class="list-group">
-         <li class="list-group-item">
+
+        <li class="list-group-item">
          <a href="{{route('posts.index')}}">Post</a>
          </li>
+
+
+         <li class="list-group-item">
+        <a href="{{route('tags.index')}}">Tags</a>
+        </li>
+
+
          <li class="list-group-item">
          <a href="{{route('categories.index')}}">Category</a>
          </li>
@@ -100,23 +114,23 @@
             Trash
          </a>
          </li>
-         
+
          </ul>
-          
+
           </div>
           <div class="col-md-8">
-          @yield('content')         
+          @yield('content')
           </div>
           </div>
         </div>
         @else
-        @yield('content')    
+        @yield('content')
 
         @endauth
         </main>
     </div>
-   
-    
+
+
  <!-- Scripts -->
  <script src="{{ asset('js/app.js') }}" ></script>
 

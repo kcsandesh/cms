@@ -26,10 +26,10 @@
                      <div class="col-sm-9 invalid-text text-danger">{{$message}}</div>
                      @enderror
                   </div>
-                  
+
 
                   <div class="form-group">
-                     
+
                      <label for="content">Content</label>
                      <input id="content" type="hidden" name="content" value="{{isset($post)  ? $post->content :''}}">
                      <trix-editor input="content"></trix-editor>
@@ -43,10 +43,11 @@
                   <div class="form-group">
                      <label for="published_at">Published At</label>
                      <input type="text" id="published_at" class="form-control" name="published_at" value="{{isset($post) ? $post->published_at :''}}" >
-                     
-                     @error('published_at')
-                        <div class="col-sm-9 invalid-text text-danger">{{$message}}</div>
-                        @enderror
+
+                    @error('published_at')
+                    <div class="col-sm-9 invalid-text text-danger">{{$message}}</div>
+                    @enderror
+
                   </div>
 
                   @if(isset($post))
@@ -58,11 +59,25 @@
                      <label for="image">Image</label>
                      <input type="file" class="form-control" name="image" id="image">
                      @error('image')
-                        <div class="col-sm-9 invalid-text text-danger">{{$message}}</div>
-                        @enderror
+                     <div class="col-sm-9 invalid-text text-danger">{{$message}}</div>
+                    @enderror
                   </div>
+                  <div class="from-group">
+                      <label for="category_id">Category </label>
+                      <select name="category_id" class="form-control"  id="category_id">
+                      @foreach($categories as $category)
+                      <option value="{{ $category->id }}">
+                        {{$category->name}}
+                    </option>
+                    @endforeach
+                  </select>
+                  @error('category_id')
+                  <div class="col-sm-9 invalid-text text-danger">{{$message}}</div>
+                  @enderror
+                  </div>
+
                   <div class="form-group">
-                     <button type="submit" class="btn btn-success">{{ isset($post) ? 'Update Post' : 'Create Post'}}</button>
+                     <button type="submit" class="btn btn-success my-2">{{ isset($post) ? 'Update Post' : 'Create Post'}}</button>
                   </div>
             </div>
     </div>
@@ -73,7 +88,7 @@
 
 
 @section('scripts')
-    
+
    <script src="	https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.1/trix.js">
    </script>
    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -82,7 +97,7 @@
          enableTime:true
       })
    </script>
-   
+
 
 @endsection
 

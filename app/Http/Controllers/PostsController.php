@@ -5,11 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request\Posts;
 use App\Http\Requests\Posts\CreatePostRequest;
 use App\Http\Requests\posts\UpdatePostRequest;
+use App\Http\Middleware\CheckCategoriesCount;
 use App\Post;
+use App\Category;
 
 
 class PostsController extends Controller
 {
+    public function __construct(){
+        $this->middleware('CheckCategoriesCount')->only(['create','store']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -27,7 +33,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        return view('posts.create')->with('categories', Category::all());
     }
 
     /**$request
@@ -38,6 +44,7 @@ class PostsController extends Controller
      */
     public function store(CreatePostRequest $request)
     {
+        // dd($request->all());
         $image = $request->image->store('posts');
         // if($request->hasFile('image')){
         //     $file=$request->image;
@@ -53,8 +60,10 @@ class PostsController extends Controller
             'description' => $request->description,
             'content' => $request->content,
             'image' => $image,
-            'published_at' => $request->published_at
+            'published_at' => $request->published_at,
+            'category_id'=>$request->category_id,
         ]);
+
         session()->flash('success', 'Post created successfully.');
         return redirect(route('posts.index'));
     }
@@ -78,7 +87,7 @@ class PostsController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('posts.create')->with('post', $post);
+        return view('posts.create')->with('post', $post)->with('categories',Category::all());
     }
 
     /**

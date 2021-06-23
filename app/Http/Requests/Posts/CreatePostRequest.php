@@ -3,7 +3,7 @@
 namespace App\Http\Requests\Posts;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules;
+
 
 class CreatePostRequest extends FormRequest
 {
@@ -29,6 +29,7 @@ class CreatePostRequest extends FormRequest
             'description'=>'required',
             'content'=>'required',
             'image'=>'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            
         ];
 
     }

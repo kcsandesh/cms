@@ -2,11 +2,11 @@
 
 @section('content')
 <div class="d-flex justify-content-end">
-<a href="{{route('categories.create')}}"class="btn btn-success mb1 my-2">Add Category</a></div>
+<a href="{{route('tags.create')}}"class="btn btn-success mb1 my-2">Add Tag</a></div>
 <div class="card card-default">
-<div class="card-header"><h1><b>Categories</b></h1></div>
+<div class="card-header"><h1><b>Tags</b></h1></div>
 <div class="card body">
-@if($categories->count() > 0)
+@if($tags->count() > 0)
 
 <table class="table">
 <thead>
@@ -16,32 +16,32 @@
 <th></th>
 </thead>
 <tbody>
-@foreach($categories as $category)
+@foreach($tags as $tag)
 <tr>
 <td>
-{{$category->name}}
+{{$tag->name}}
 
 </td>
 <td>
-    {{$category->posts->count()}}
+    a
 </td>
 <td>
-<a href="{{route('categories.edit',$category->id)}}" class="btn btn-info btn-sm">Edit</a>
+<a href="{{route('tags.edit',$tag->id)}}" class="btn btn-info btn-sm">Edit</a>
 </td>
 <td>
-<button class="btn btn-danger btn-sm" onclick="handleDelete({{ $category->id}})">Delete</button>
+<button class="btn btn-danger btn-sm" onclick="handleDelete({{ $tag->id}})">Delete</button>
 </td>
 </tr>
 @endforeach
 </tbody>
 </table>
 @else
-<h3 class="text-center"><b>No Category yet.</b></h3>
+<h3 class="text-center"><b>No Tag yet.</b></h3>
 @endif
 <!-- Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
   <div class="modal-dialog">
-    <form action="" method="POST" id="deleteCategoryForm">
+    <form action="" method="POST" id="deleteTagForm">
     @csrf
     @method('DELETE')
     <div class="modal-content">
@@ -73,8 +73,8 @@
    <script>
     function handleDelete(id){
 
-      var form=document.getElementById('deleteCategoryForm')
-      form.action='/categories/' + id
+      var form=document.getElementById('deleteTagForm')
+      form.action='/Tags/' + id
         // console.log('delete.',form)
         $('#deleteModal').modal('show')
 
