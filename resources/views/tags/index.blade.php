@@ -23,20 +23,21 @@
 
 </td>
 <td>
-    a
+    {{$tag->posts->count()}}
 </td>
 <td>
-<a href="{{route('tags.edit',$tag->id)}}" class="btn btn-info btn-sm">Edit</a>
+<a href="{{route('tags.edit',$tag->id)}}" class="btn btn-outline-info ">Edit</a>
 </td>
 <td>
-<button class="btn btn-danger btn-sm" onclick="handleDelete({{ $tag->id}})">Delete</button>
+<button class="btn btn-outline-danger " onclick="handleDelete({{ $tag->id}})">Delete</button>
 </td>
 </tr>
 @endforeach
 </tbody>
 </table>
+{{$tags->links()}}
 @else
-<h3 class="text-center"><b>No Tag yet.</b></h3>
+<h3 class="text-center text-secondary"><b>No Tag yet.</b></h3>
 @endif
 <!-- Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -74,7 +75,7 @@
     function handleDelete(id){
 
       var form=document.getElementById('deleteTagForm')
-      form.action='/Tags/' + id
+      form.action='/tags/' + id
         // console.log('delete.',form)
         $('#deleteModal').modal('show')
 

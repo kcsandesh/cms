@@ -2,7 +2,7 @@
 
       @section('content')
 
-      <form action="{{isset($post) ? route('posts.update',$post->id) : route('posts.store')}}" method="post" enctype="multipart/form-data">
+      <form action="{{isset($post) ? route('posts.update',$post->id) : route('posts.store')}}" method="POST" role="form" enctype="multipart/form-data">
          @csrf
          @if(isset($post))
             @method('PATCH')
@@ -52,7 +52,7 @@
 
                   @if(isset($post))
                      <div class="form-group">
-                        <img src="{{asset($post->image)}}" alt="" style="width:100%">
+                        <img src="/storage/{{$post->image}}" alt="" style="width:100%">
                      </div>
                   @endif
                   <div class="form-group">
@@ -63,18 +63,41 @@
                     @enderror
                   </div>
                   <div class="from-group">
-                      <label for="category_id">Category </label>
-                      <select name="category_id" class="form-control"  id="category_id">
+                      <label for="category">Category </label>
+                      <select name="category" class="form-control"  id="category">
                       @foreach($categories as $category)
                       <option value="{{ $category->id }}">
                         {{$category->name}}
                     </option>
                     @endforeach
                   </select>
-                  @error('category_id')
+                  @error('category')
                   <div class="col-sm-9 invalid-text text-danger">{{$message}}</div>
                   @enderror
                   </div>
+
+                  @if($tags->count()>0)
+
+                  <div class="form-group">
+                    <label for="tags">Tag</label>
+                    <select name="tags[]" id="tags" class="form-control tag-selector" multiple>
+                      @foreach($tags as $tag)
+                      <option value="{{$tag->id}}"
+                        @if(isset($post))
+                        @if($post->pluckTag($tag->id))
+
+                        selected
+
+                        @endif
+                        @endif
+                        >
+                      {{$tag->name }}
+                      </option>
+                      @endforeach
+                    </select>
+                 </div>
+                  @endif
+
 
                   <div class="form-group">
                      <button type="submit" class="btn btn-success my-2">{{ isset($post) ? 'Update Post' : 'Create Post'}}</button>
@@ -89,13 +112,19 @@
 
 @section('scripts')
 
-   <script src="	https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.1/trix.js">
-   </script>
+   <script src="	https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.1/trix.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
    <script>
       flatpickr('#published_at',{
-         enableTime:true
+         enableTime:true,
+         enableSecond:true 
       })
+
+      $(document).ready(function() {
+      $('.tag-selector').select2()
+     })
    </script>
 
 
@@ -104,6 +133,7 @@
 @section('css')
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.1/trix.css">
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 
 @endsection

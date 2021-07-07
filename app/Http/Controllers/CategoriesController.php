@@ -17,7 +17,7 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        return view('categories.index')->with('categories', Category::all());
+        return view('categories.index')->with('categories', Category::simplePaginate(4));
     }
 
     /**
@@ -98,6 +98,12 @@ class CategoriesController extends Controller
      */
     public function destroy(Category $category)
     {
+        if($category->posts->count() > 0){
+
+            session()->flash('error','Category is associated with post.');
+            return redirect(route('home'));
+
+        }
         $category->delete();
 
         session()->flash('success', 'Category deleted successfully.');

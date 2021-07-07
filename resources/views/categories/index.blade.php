@@ -26,17 +26,18 @@
     {{$category->posts->count()}}
 </td>
 <td>
-<a href="{{route('categories.edit',$category->id)}}" class="btn btn-info btn-sm">Edit</a>
+<a href="{{route('categories.edit',$category->id)}}" class="btn btn-outline-info ">Edit</a>
 </td>
 <td>
-<button class="btn btn-danger btn-sm" onclick="handleDelete({{ $category->id}})">Delete</button>
+<button class="btn btn-outline-danger " onclick="handleDelete({{ $category->id}})">Delete</button>
 </td>
 </tr>
 @endforeach
 </tbody>
 </table>
+{{$categories->links()}}
 @else
-<h3 class="text-center"><b>No Category yet.</b></h3>
+<h3 class="text-center text-secondary"><b>No Category yet.</b></h3>
 @endif
 <!-- Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">

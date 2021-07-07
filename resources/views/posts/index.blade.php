@@ -2,7 +2,12 @@
 
 @section('content')
 <div class="d-flex justify-content-end">
-<a href="{{ route('posts.create') }}"class="btn btn-success mb1 my-2">Add Post</a></div>
+    <a href="{{ route('posts.create') }}" class="btn btn-success mb1 my-2">
+
+Add Post
+
+    </a>
+</div>
 <div class="card card-default">
     <div class="card-header"><h1><b>Posts</b></h1></div>
         <div class="card body">
@@ -20,14 +25,15 @@
                  @foreach($posts as $post)
                     <tr>
                         <td>
-                        <img src="{{($post->image)}}" width="120px" height="120px" alt="">
+                        <img src="/storage/{{$post->image}}" width="150px" height="120px" alt="">
+
                         </td>
 
                         <td>
                             {{$post->title}}
                         </td>
                         <td>
-                            <a href="{{route('categories.edit',$post->category->id)}}">{{$post->category->name }}</a>
+                            <a href="{{route('categories.edit',$post->category->id)}}" class="text-success m-2" >{{$post->category->name }}</a>
                         </td>
 
 
@@ -39,13 +45,13 @@
                         <form action="{{route('restore-posts',$post->id)}}" method="POST">
                         @csrf
                         @method('PUT')
-                        <button type="submit" class="btn btn-info btn-sm">Restore</button>
+                        <button type="submit" class="btn btn-outline-info ">Restore</button>
                         </form>
                         </td>
 
                         @else
                         <td>
-                        <a href="{{route('posts.edit',$post->id)}}" class="btn btn-info btn-sm" >Edit</a>
+                        <a href="{{route('posts.edit',$post->id)}}" class="btn btn-outline-info" >Edit</a>
                         </td>
                         @endif
 
@@ -53,20 +59,22 @@
                         <form action="{{route('posts.destroy',$post->id)}}" method="POST">
                             @csrf
                             @method('DELETE')
-                             <button type="submit" class="btn btn-danger btn-sm" ></i>
+                             <button type="submit" class="btn btn-outline-danger " ></i>
                             {{$post->trashed() ? 'Delete' :'Trash'}}
                             </button>
                         </form>
                         </td>
                     </tr>
-
-
                  @endforeach
+
                </tbody>
-           </table>
+            </table>
+
+            {{$posts->links()}}
+
 
            @else
-           <H3 class="text-center"><b>No Post yet.</b></H3>
+           <H3 class="text-center text-secondary"><b>No Post yet.</b></H3>
 
            @endif
         </div>

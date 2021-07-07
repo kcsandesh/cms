@@ -11,9 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+use App\Http\Controllers\Blog\BlogController;
+use App\Http\Middleware\VerifyIsAdmin;
+
+Route::get('/blog/{post}',[BlogController::class,'show'])->name('blog.show');
+Route::get('/blog/category/{category}',[BlogController::class,'category'])->name('blog.category');
+Route::get('/blog/tag/{tag}',[BlogController::class,'tag'])->name('blog.tag');
+
+Route::get('/','WelcomeController@index')->name('welcome');
 
 Auth::routes();
 
@@ -35,4 +40,11 @@ Route::put('restore-posts/{post}', 'PostsController@restore')->name('restore-pos
 
 Route::resource('tags','TagsController');
 
+});
+
+route::middleware(['auth','VerifyIsAdmin'])->group(function(){
+    Route::get('users','UsersController@index')->name('users.index');
+    Route::get('users/profile','UsersController@edit')->name('users.edit-profile');
+    Route::put('users/update-profile','UsersController@update')->name('users.update-profile');
+    Route::post('users/{user}/make-admin','UsersController@makeAdmin')->name('users.make-admin');
 });

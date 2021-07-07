@@ -18,7 +18,7 @@ class TagsController extends Controller
      */
     public function index()
     {
-        return view('tags.index')->with('tags', Tag::all());
+        return view('tags.index')->with('tags', Tag::simplePaginate(4));
     }
 
     /**
@@ -99,6 +99,10 @@ class TagsController extends Controller
      */
     public function destroy(Tag $tag)
     {
+        if ($tag->posts->count() > 0) {
+            session()->flash('error', 'Tag is associated with post.');
+            return redirect (route('home'));
+        }
         $tag->delete();
 
         session()->flash('success', 'Tag deleted successfully.');
